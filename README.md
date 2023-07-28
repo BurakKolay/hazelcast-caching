@@ -6,9 +6,9 @@ Hazelcast, Java tabanlı özgür bir bellek içi veri ızgarasıdır. Bir Hazelc
 Hazelcast verileri hafızada bir map şeklinde tutuyor. Bu verileri Hazelcast aracılığı sadece yönetmekle kalmayıp, verileri kitlemei kuyruğa alma gibi işlemleri yapabiliyoruz. Veriler ram'de tutulurken bir o kadarı da backup şeklinde yine bellekler arasında paylaştırılıp veri kaybını en aza indirmeyi anaçlıyor.
 
 
-## Kullanımı
+# Kullanımı
 
-### Maven'a dependency ekliyoruz
+## Maven'a dependency ekliyoruz
 
 ```http
 <dependency>
@@ -18,7 +18,7 @@ Hazelcast verileri hafızada bir map şeklinde tutuyor. Bu verileri Hazelcast ar
 </dependency>
 ```
 
-### Caching'i aktif ediyoruz.
+## Caching'i aktif ediyoruz.
 **@EnableCaching**
 ```http
 @SpringBootApplication
@@ -33,7 +33,7 @@ public class HazelcastSpringBootApplication {
 ```
 @EnableCaching anotasyonu ile projemizde caching işlemini aktif ediyoruz.
 
-### CacheConfig ile cache ismini belirliyoruz.
+## CacheConfig ile cache ismini belirliyoruz.
 **@CacheConfig(cacheNames = "students")**
 ```http
 @RequiredArgsConstructor
@@ -45,7 +45,7 @@ public class StudentController
 
 **@CacheConfig** Spring Framework'de kullanılan bir anotasyondur ve belirli bir sınıftaki tüm **@Cacheable**, **@CachePut**, **@CacheEvict** veya **@Caching** gibi diğer önbellekleme anotasyonlarının paylaşacakları önbellek yapılandırmasını tanımlar.
 
-### Liste dönen verinin cachelenmesi .
+## Liste dönen verinin cachelenmesi .
 **@Cacheable(value = "student_list")**
 ```http
   @GetMapping
@@ -59,7 +59,7 @@ public class StudentController
 
 İlk çağrıda **getAll()** metodunun sonucu alınır ve önbelleğe alınır. Sonraki çağrılarda aynı metodun çağrılması durumunda, sonuç önbellekten alınır ve tekrar **service.getAll()** çağrısı yapılmaz. Bu şekilde her seferinde veritabanında sorgu atılmamış olur.
 
-### ID ile dönen verinin cachelenmesi .
+## ID ile dönen verinin cachelenmesi .
 **@Cacheable(key = "#id")**
 ```http
   @GetMapping("/{id}")
@@ -75,7 +75,7 @@ public class StudentController
 
 İlk çağrıda **getById** metoduna *id* değeri *a74d44b5-f87e-4c1a-82f7-58cd1d8d822e* ile bir istek yapıldığında sonuç elde edilir ve önbelleğe *a74d44b5-f87e-4c1a-82f7-58cd1d8d822e* anahtarı altında saklanır. Sonraki çağrılarda aynı *id* değeri olan istekler yapıldığında sorgu tekrardan çalıştırılmadan sonuç doğrudan önbellekten verilir.
 
-### Ekleme işleminde sonra cachelerin temizlenmesi.
+## Ekleme işleminde sonra cachelerin temizlenmesi.
 **@CacheEvict(value = "student_list", allEntries = true)**
 ```http
   @PostMapping
@@ -89,7 +89,7 @@ public class StudentController
 
 **@CacheEvict** anotasyonu, **add** metodunun çağrılında **student_list** adlı önbelleği temizler. Bu sayede tekrardan **getAll** metodu çalıştığında sorgu atılacak ve veri güncellenmiş olacak. **@CacheEvict** atonasyonunda, **value** parametresi ile temizlenecek olan önbellek adı belirtilir. **allEntries = true** yaparak da bu parametredeki tüm verilerin temizlenmesini sağladık.
 
-### Güncelleme işleminde sonra cachelerin güncellenmesi ve temizlenmesi.
+## Güncelleme işleminde sonra cachelerin güncellenmesi ve temizlenmesi.
 **@CachePut(key = "#id")**
 ```http
   @PutMapping("/{id}")
