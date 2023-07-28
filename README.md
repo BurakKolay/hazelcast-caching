@@ -17,7 +17,7 @@ Hazelcast verileri hafızada bir map şeklinde tutuyor. Bu verileri Hazelcast ar
     <version>5.2.3</version>
 </dependency>
 ```
-
+---
 ## Caching'i aktif ediyoruz.
 **@EnableCaching**
 ```http
@@ -33,6 +33,8 @@ public class HazelcastSpringBootApplication {
 ```
 @EnableCaching anotasyonu ile projemizde caching işlemini aktif ediyoruz.
 
+---
+
 ## CacheConfig ile cache ismini belirliyoruz.
 **@CacheConfig(cacheNames = "students")**
 ```http
@@ -44,6 +46,8 @@ public class StudentController
 ```
 
 **@CacheConfig** Spring Framework'de kullanılan bir anotasyondur ve belirli bir sınıftaki tüm **@Cacheable**, **@CachePut**, **@CacheEvict** veya **@Caching** gibi diğer önbellekleme anotasyonlarının paylaşacakları önbellek yapılandırmasını tanımlar.
+
+---
 
 ## Liste dönen verinin cachelenmesi .
 **@Cacheable(value = "student_list")**
@@ -59,6 +63,7 @@ public class StudentController
 
 İlk çağrıda **getAll()** metodunun sonucu alınır ve önbelleğe alınır. Sonraki çağrılarda aynı metodun çağrılması durumunda, sonuç önbellekten alınır ve tekrar **service.getAll()** çağrısı yapılmaz. Bu şekilde her seferinde veritabanında sorgu atılmamış olur.
 
+---
 ## ID ile dönen verinin cachelenmesi .
 **@Cacheable(key = "#id")**
 ```http
@@ -75,6 +80,7 @@ public class StudentController
 
 İlk çağrıda **getById** metoduna *id* değeri *a74d44b5-f87e-4c1a-82f7-58cd1d8d822e* ile bir istek yapıldığında sonuç elde edilir ve önbelleğe *a74d44b5-f87e-4c1a-82f7-58cd1d8d822e* anahtarı altında saklanır. Sonraki çağrılarda aynı *id* değeri olan istekler yapıldığında sorgu tekrardan çalıştırılmadan sonuç doğrudan önbellekten verilir.
 
+---
 ## Ekleme işleminde sonra cachelerin temizlenmesi.
 **@CacheEvict(value = "student_list", allEntries = true)**
 ```http
@@ -89,6 +95,7 @@ public class StudentController
 
 **@CacheEvict** anotasyonu, **add** metodunun çağrılında **student_list** adlı önbelleği temizler. Bu sayede tekrardan **getAll** metodu çalıştığında sorgu atılacak ve veri güncellenmiş olacak. **@CacheEvict** atonasyonunda, **value** parametresi ile temizlenecek olan önbellek adı belirtilir. **allEntries = true** yaparak da bu parametredeki tüm verilerin temizlenmesini sağladık.
 
+---
 ## Güncelleme işleminde sonra cachelerin güncellenmesi ve temizlenmesi.
 **@CachePut(key = "#id")**
 ```http
